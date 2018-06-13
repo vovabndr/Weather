@@ -13,23 +13,30 @@ import OpenWeatherSwift
 class WeatherManager {
     
     static let shared = WeatherManager()
-    
     var cityArr = [Weather]()
-    
     
     var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
                                   temperatureFormat: .Celsius)
     
-    func addCity(name: String, handler: @escaping ()->Void){
+    func addCity(name: String, handler: @escaping (Bool)->Void){
+        if !checkCity(name){
+            handler(false)
+            return
+        }
         newApi.currentWeatherByCity(name: name) { js in
             if js["cod"] == "404" {
-                print(name)
                 return
             }
-            print(js)
+            
             self.cityArr.append(Weather(json: js))
-            handler()
+            handler(true)
         }
+    }
+    func checkCity(_ name: String)->Bool{
+        for city in cityArr where city.name == name{
+            return false
+        }
+        return true
     }
     
     func getIcon( cloud: String) -> String{

@@ -29,7 +29,7 @@ class CityList {
     func getSortedList() -> [[String]] {
 
         var tmparr = [String]()
-        for each in citiesList! {
+        for each in getCities() {
             tmparr.append(String(Array(each)[0]))
         }
         let letters = Array(Set(tmparr)).sorted()

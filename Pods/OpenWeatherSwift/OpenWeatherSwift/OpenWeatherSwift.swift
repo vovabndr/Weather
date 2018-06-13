@@ -123,8 +123,7 @@ public class OpenWeatherSwift {
                 
                 completionHandler(json)
             } else {
-//                print("error")
-                print(name,"api")
+                print("error")
             }
         }
     }

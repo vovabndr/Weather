@@ -19,7 +19,7 @@ class DetailViewController: UIViewController {
     }
     @IBOutlet weak var windLabel: UILabel!{
         didSet {
-            windLabel.text = "Wind \(weatherData!.wind!) m/s"
+            windLabel.text = "Wind \n\(weatherData!.wind!) m/s"
         }
     }
     @IBOutlet weak var rainLabel: UILabel!{
@@ -40,6 +40,12 @@ class DetailViewController: UIViewController {
     navigationController?.navigationBar.items![0].backBarButtonItem?.image = #imageLiteral(resourceName: "Back")
     navigationController?.navigationBar.items![0].title = ""
     }
+    
+    @IBAction func DeleteCity(_ sender: UIBarButtonItem) {
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
     
     
     

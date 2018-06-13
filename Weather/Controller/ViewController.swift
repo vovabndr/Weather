@@ -32,9 +32,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         citiesCollectionView.delegate = self
         citiesCollectionView.dataSource = self
     
-        
-//        print( URLQueryItem(name: "q", value: "Rio Branco"))
-    }
+            }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -81,7 +79,6 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
 extension ViewController: CityDelegate {
     func updateCityList() {
         citiesCollectionView.reloadData()
-        print("delegate")
     }
     
     

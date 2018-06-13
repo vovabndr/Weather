@@ -15,9 +15,11 @@ struct Weather {
     var humidity: Int?
     var wind: Double?
     var chance: Int?
+    
     var temp: Double?
     var tempMin: Int?
     var tempMax: Int?
+    
     var image: String?
 
     init(json: JSON) {
