@@ -17,15 +17,18 @@ class WeatherManager {
     var cityArr = [Weather]()
     
     
-    var newApi = OpenWeatherSwift(apiKey: "3c40ed26d5415e0935bf2352b7c507fe",
+    var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
                                   temperatureFormat: .Celsius)
     
-    func addCity(name: String){
+    func addCity(name: String, handler: @escaping ()->Void){
         newApi.currentWeatherByCity(name: name) { js in
             if js["cod"] == "404" {
+                print(name)
                 return
             }
+            print(js)
             self.cityArr.append(Weather(json: js))
+            handler()
         }
     }
     

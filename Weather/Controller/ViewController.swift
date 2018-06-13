@@ -14,12 +14,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     var location: CLLocationCoordinate2D?
-    
+    var weathers = WeatherManager.shared.cityArr
+
     @IBOutlet weak var citiesCollectionView: UICollectionView!
 
-
-    var weathers = WeatherManager.shared.cityArr
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -33,16 +31,16 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
         citiesCollectionView.delegate = self
         citiesCollectionView.dataSource = self
-
+    
         
-        
-
-        
+//        print( URLQueryItem(name: "q", value: "Rio Branco"))
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         citiesCollectionView.reloadData()
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         self.location = locValue
@@ -80,5 +78,14 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     
     
 }
+extension ViewController: CityDelegate {
+    func updateCityList() {
+        citiesCollectionView.reloadData()
+        print("delegate")
+    }
+    
+    
+}
+
 
 

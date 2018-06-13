@@ -102,15 +102,29 @@ public class OpenWeatherSwift {
     }
     
     public func currentWeatherByCity(name: String, completionHandler: @escaping (_ result: JSON) -> ()) {
-        let apiURL = currentBase + "q=\(name)" + encode(params: params)
+       
+        params["q"] = name as AnyObject
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.openweathermap.org"
+        components.path = "/data/2.5/weather"
+        components.queryItems = [URLQueryItem]()
+        for (key, value) in params {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems!.append(queryItem)
+        }
         
-        Alamofire.request(apiURL).responseJSON { (response) in
+        let apiURL = components.url
+        
+        Alamofire.request(apiURL!).responseJSON { (response) in
             if response.result.isSuccess {
                 let json = JSON(response.result.value as Any)
                 
                 completionHandler(json)
             } else {
-                print("error")
+//                print("error")
+                print(name,"api")
             }
         }
     }
