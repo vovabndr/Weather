@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeController.swift
 //  Weather
 //
 //  Created by Владимир Бондарь on 6/11/18.
@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 
 
-class ViewController: UIViewController,CLLocationManagerDelegate {
+class HomeController: UIViewController,CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     var location: CLLocationCoordinate2D?
@@ -31,8 +31,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
         citiesCollectionView.delegate = self
         citiesCollectionView.dataSource = self
-    
-            }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -42,18 +41,16 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         self.location = locValue
-
     }
     
     @IBAction func GetLocation(_ sender: Any) {
 
     }
-    
-
 }
 
-extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension HomeController: UICollectionViewDelegate,UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         return weathers.count
     }
     
@@ -69,20 +66,13 @@ extension ViewController: UICollectionViewDelegate,UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = storyboard!.instantiateViewController(withIdentifier:
             "DetailViewController") as? DetailViewController
-        controller?.title = weathers[indexPath.row].name
         controller?.weatherData = weathers[indexPath.row]
         navigationController!.pushViewController(controller!, animated: true)
     }
-    
-    
 }
-extension ViewController: CityDelegate {
+
+extension HomeController: CityDelegate {
     func updateCityList() {
         citiesCollectionView.reloadData()
     }
-    
-    
 }
-
-
-

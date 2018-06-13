@@ -14,7 +14,6 @@ class CityViewController: UIViewController {
     @IBOutlet weak var cityTableView: UITableView!
     
     var cityDelegate: CityDelegate?
-
     var sortArr = CityList.shared.getSortedList()
     var filteredData = [[String]]()
     var inSearchMode = false
@@ -25,16 +24,9 @@ class CityViewController: UIViewController {
         cityTableView.delegate = self
         cityTableView.dataSource = self
         cityTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cityCell")
+        cityTableView.keyboardDismissMode = .onDrag
     }
     
-    func popUP(text: String){
-        let alert = UIAlertController(title: "", message: text, preferredStyle: .alert)
-        self.present(alert, animated: true, completion: nil)
-                let when = DispatchTime.now() + 1.0
-        DispatchQueue.main.asyncAfter(deadline: when){
-            alert.dismiss(animated: true, completion: nil)
-        }
-    }
 }
 
 extension CityViewController: UISearchBarDelegate {
@@ -42,13 +34,9 @@ extension CityViewController: UISearchBarDelegate {
         citySearchBar.resignFirstResponder()
     }
     
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//            citySearchBar.resignFirstResponder()
-//            WeatherManager.shared.addCity(name: searchBar.text!){
-//                self.performSegue(withIdentifier: "HomeSegue", sender: nil)
-//                self.cityDelegate?.updateCityList()
-//        }
-//    }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == nil || searchBar.text == "" {
@@ -57,7 +45,7 @@ extension CityViewController: UISearchBarDelegate {
         } else {
             inSearchMode = true
             filteredData = sortArr.map{$0.filter{$0.lowercased().contains(searchBar.text!.lowercased())}}
-            
+        
             for element in filteredData where element.isEmpty{
                 filteredData.remove(at: filteredData.index(of: element)!)
             }
@@ -102,31 +90,34 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        tableView.deselectRow(at: indexPath , animated: true)
+        
         var city = String()
         if inSearchMode {
             city = filteredData[indexPath.section][indexPath.row]
         } else {
             city = sortArr[indexPath.section][indexPath.row]
         }
+        let controller = storyboard!.instantiateViewController(
+            withIdentifier: "DetailViewController") as? DetailViewController
         
-        WeatherManager.shared.addCity(name: city){ answer in
-            if answer == false {
-                self.popUP(text: "\(city) is already listed")
+        if  !WeatherManager.shared.checkCity(city){
+            controller?.weatherData = WeatherManager.shared.cityArr.first{$0.name == city }
+            navigationController!.pushViewController(controller!, animated: true)
+        } else {
+            self.navigationController!.pushViewController(controller!, animated: true)
+            WeatherManager.shared.addCity(name: city){ answer in
+                DispatchQueue.main.async {
+                    self.cityDelegate?.updateCityList()
+                    controller?.weatherData = WeatherManager.shared.cityArr.first{$0.name == city }
+                }
             }
-            self.performSegue(withIdentifier: "HomeSegue", sender: nil)
-            self.cityDelegate?.updateCityList()
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-            cell.backgroundColor = UIColor(red: 41/255, green: 45/255, blue: 38/255, alpha: 1)
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell,
+                   forRowAt indexPath: IndexPath) {
+            cell.backgroundColor = UIColor(red: 41/255, green: 45/255, blue: 48/255, alpha: 1)
             cell.textLabel?.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
     }
-    
-    
 }
-
-
-
-

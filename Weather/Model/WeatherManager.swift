@@ -11,35 +11,35 @@ import OpenWeatherSwift
 
 
 class WeatherManager {
-    
     static let shared = WeatherManager()
+    
     var cityArr = [Weather]()
     
     var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
                                   temperatureFormat: .Celsius)
     
-    func addCity(name: String, handler: @escaping (Bool)->Void){
+    func addCity(name: String, handler: @escaping (Bool)->Void) {
         if !checkCity(name){
             handler(false)
             return
         }
-        newApi.currentWeatherByCity(name: name) { js in
-            if js["cod"] == "404" {
+        newApi.currentWeatherByCity(name: name) { jsonAnswer in
+            if jsonAnswer["cod"] == "404" {
                 return
             }
-            
-            self.cityArr.append(Weather(json: js))
+            self.cityArr.append(Weather(json: jsonAnswer))
             handler(true)
         }
     }
-    func checkCity(_ name: String)->Bool{
+    
+    func checkCity(_ name: String?)->Bool {
         for city in cityArr where city.name == name{
             return false
         }
         return true
     }
     
-    func getIcon( cloud: String) -> String{
+    func getIcon( cloud: String?) -> String {
         switch cloud {
         case  "01d" , "01n":
             return "Clear"

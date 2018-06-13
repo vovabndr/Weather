@@ -32,5 +32,4 @@ struct Weather {
         self.chance = json["clouds"]["all"].int
         self.image = json["weather"][0]["icon"].string
     }
-
 }

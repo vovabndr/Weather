@@ -12,7 +12,7 @@ import SwiftyJSON
 class CityList {
     static let shared = CityList()
     
-    var citiesList: [String]?
+   private var citiesList: [String]?
     
     func getCities() -> [String] {
         var cities = [String]()
@@ -26,8 +26,8 @@ class CityList {
         self.citiesList  = cities
         return cities
     }
+    
     func getSortedList() -> [[String]] {
-
         var tmparr = [String]()
         for each in getCities() {
             tmparr.append(String(Array(each)[0]))
@@ -42,8 +42,7 @@ class CityList {
                     sortderArr[i].append(city)
                 }
             }
-        }
-        
+        }        
         return sortderArr
     }
     

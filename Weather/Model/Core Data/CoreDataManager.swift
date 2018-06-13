@@ -13,4 +13,6 @@ class CoreDataManager {
     static let shared = CoreDataManager()
     
     
+    
+    
 }

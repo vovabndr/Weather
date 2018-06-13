@@ -18,7 +18,7 @@
 		31735C8F20D047E200AE2759 /* cities_with_countries.json in Resources */ = {isa = PBXBuildFile; fileRef = 31735C8E20D047E200AE2759 /* cities_with_countries.json */; };
 		31735C9220D081F100AE2759 /* CityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31735C9120D081F100AE2759 /* CityList.swift */; };
 		31D98E3020CED6F900ACB30D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D98E2F20CED6F900ACB30D /* AppDelegate.swift */; };
-		31D98E3220CED6F900ACB30D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D98E3120CED6F900ACB30D /* ViewController.swift */; };
+		31D98E3220CED6F900ACB30D /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D98E3120CED6F900ACB30D /* HomeController.swift */; };
 		31D98E3520CED6F900ACB30D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 31D98E3320CED6F900ACB30D /* Main.storyboard */; };
 		31D98E3820CED6F900ACB30D /* Weather.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 31D98E3620CED6F900ACB30D /* Weather.xcdatamodeld */; };
 		31D98E3A20CED6FD00ACB30D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31D98E3920CED6FD00ACB30D /* Assets.xcassets */; };
@@ -39,7 +39,7 @@
 		31735C9120D081F100AE2759 /* CityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityList.swift; sourceTree = "<group>"; };
 		31D98E2C20CED6F900ACB30D /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31D98E2F20CED6F900ACB30D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		31D98E3120CED6F900ACB30D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		31D98E3120CED6F900ACB30D /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		31D98E3420CED6F900ACB30D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		31D98E3720CED6F900ACB30D /* Weather.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Weather.xcdatamodel; sourceTree = "<group>"; };
 		31D98E3920CED6FD00ACB30D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +72,14 @@
 			path = "Core Data";
 			sourceTree = "<group>";
 		};
+		3139FC4E20D18A730012AE11 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				31735C8C20D019C300AE2759 /* CityDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		3163E58FFE228AEB0061BB77 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,9 +91,8 @@
 		31735C7F20CF361800AE2759 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				31D98E3120CED6F900ACB30D /* ViewController.swift */,
+				31D98E3120CED6F900ACB30D /* HomeController.swift */,
 				31735C7D20CF19CE00AE2759 /* CityViewController.swift */,
-				31735C8C20D019C300AE2759 /* CityDelegate.swift */,
 				31735C8A20CFC61700AE2759 /* DetailViewController.swift */,
 			);
 			path = Controller;
@@ -141,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				31D98E2F20CED6F900ACB30D /* AppDelegate.swift */,
+				3139FC4E20D18A730012AE11 /* Protocol */,
 				31735C7F20CF361800AE2759 /* Controller */,
 				31735C8020CF362900AE2759 /* View */,
 				31735C8120CF363A00AE2759 /* Model */,
@@ -284,7 +292,7 @@
 				3139FC4D20D1813D0012AE11 /* CoreDataStack.swift in Sources */,
 				31735C8320CF365200AE2759 /* Weather.swift in Sources */,
 				31735C9220D081F100AE2759 /* CityList.swift in Sources */,
-				31D98E3220CED6F900ACB30D /* ViewController.swift in Sources */,
+				31D98E3220CED6F900ACB30D /* HomeController.swift in Sources */,
 				31D98E3020CED6F900ACB30D /* AppDelegate.swift in Sources */,
 				31735C7E20CF19CE00AE2759 /* CityViewController.swift in Sources */,
 				31735C8B20CFC61700AE2759 /* DetailViewController.swift in Sources */,
