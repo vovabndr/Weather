@@ -59,20 +59,20 @@ class HomeController: UIViewController,CLLocationManagerDelegate {
         guard location != nil else {
             return
         }
-        WeatherManager.shared.addCity(coords: location!) { ans, weather in
-            if ans == false {
+        WeatherManager.shared.addCity(coords: location!) { ans, weatherAns in
+            guard ans != false else {
                 return
             }
             
             let alert = UIAlertController(title: "Location",
-    message: "Your location is \((weather.name)!), longitude: \((self.location?.longitude)!), latitude:  \((self.location?.latitude)!)",
+    message: "Your location is \((weatherAns.name)!), longitude: \((self.location?.longitude)!), latitude:  \((self.location?.latitude)!)",
                 preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             
             alert.addAction(UIAlertAction(title: "View the weather", style: .default, handler: { _ in
                 let controller = self.storyboard!.instantiateViewController(withIdentifier:
                     "DetailViewController") as? DetailViewController
-                controller?.weatherData = weather
+                controller?.weatherData = weatherAns
                 self.navigationController!.pushViewController(controller!, animated: true)
             }))
             self.present(alert, animated: true, completion: nil)

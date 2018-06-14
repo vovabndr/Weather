@@ -103,17 +103,17 @@ public class OpenWeatherSwift {
     
     public func currentWeatherByCity(name: String, completionHandler: @escaping (_ result: JSON) -> ()) {
        
-        params["q"] = name as AnyObject
-
         var components = URLComponents()
         components.scheme = "https"
         components.host = "api.openweathermap.org"
         components.path = "/data/2.5/weather"
         components.queryItems = [URLQueryItem]()
+        components.queryItems!.append(URLQueryItem(name: "q", value: name))
         for (key, value) in params {
             let queryItem = URLQueryItem(name: key, value: "\(value)")
             components.queryItems!.append(queryItem)
         }
+
         
         let apiURL = components.url
         
@@ -129,9 +129,21 @@ public class OpenWeatherSwift {
     }
     
     public func currentWeatherByCoordinates(coords: CLLocationCoordinate2D, completionHandler: @escaping (_ result: JSON) -> ()) {
-        let apiURL = currentBase + "lat=\(coords.latitude)&lon=\(coords.longitude)" + encode(params: params)
-        
-        Alamofire.request(apiURL).responseJSON { (response) in
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "api.openweathermap.org"
+        components.path = "/data/2.5/weather"
+        components.queryItems = [URLQueryItem]()
+        components.queryItems!.append(URLQueryItem(name: "lat", value: String( coords.latitude)))
+        components.queryItems!.append(URLQueryItem(name: "lon", value: String(coords.longitude)))
+
+        for (key, value) in params {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems!.append(queryItem)
+        }
+
+        let apiURL = components.url
+        Alamofire.request(apiURL!).responseJSON { (response) in
             if response.result.isSuccess {
                 let json = JSON(response.result.value as Any)
                 

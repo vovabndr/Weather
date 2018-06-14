@@ -36,14 +36,13 @@ class WeatherManager {
     
     
     
-    func addCity(coords: CLLocationCoordinate2D, handler: @escaping (Bool, Weather)->Void) {
-        newApi.currentWeatherByCoordinates(coords: coords) { (jsonAnswer ) in
-            if jsonAnswer["cod"] == "404" {
+    func addCity(coords: CLLocationCoordinate2D, handlerCoord: @escaping (Bool, Weather)->Void) {
+        newApi.currentWeatherByCoordinates(coords: coords) { jsonAns  in
+            if jsonAns["cod"] == "404" {
                 return
             }
-            let weatherJson = Weather(json: jsonAnswer)
-            self.cityArr.append(weatherJson)
-            handler(true, weatherJson)
+            let weatherJsonCoord = Weather(json: jsonAns)
+            handlerCoord(true, weatherJsonCoord)
         }
     }
     
