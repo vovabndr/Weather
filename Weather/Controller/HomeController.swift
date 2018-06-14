@@ -8,31 +8,30 @@
 
 import UIKit
 import CoreLocation
+import OpenWeatherSwift
 
 
-class HomeController: UIViewController/*,CLLocationManagerDelegate*/ {
+class HomeController: UIViewController,CLLocationManagerDelegate {
     
-//    let locationManager = CLLocationManager()
-//    var location: CLLocationCoordinate2D?
+    let locationManager = CLLocationManager()
+    var location: CLLocationCoordinate2D?
 
-    //    var weathers = WeatherManager.shared.cityArr
     var weather: [Weather] = []
     
     @IBOutlet weak var citiesCollectionView: UICollectionView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        UserDefaults.standard.set(false, forKey: "hasBeenLaunchedBeforeFlag")
-
+        
         firstLaunch()
 
-//        self.locationManager.requestAlwaysAuthorization()
-//        self.locationManager.requestWhenInUseAuthorization()
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager.delegate = self
-//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//            locationManager.startUpdatingLocation()
-//        }
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
         
         citiesCollectionView.delegate = self
         citiesCollectionView.dataSource = self
@@ -41,6 +40,7 @@ class HomeController: UIViewController/*,CLLocationManagerDelegate*/ {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateWeather()
+
     }
     
     func updateWeather(){
@@ -50,13 +50,33 @@ class HomeController: UIViewController/*,CLLocationManagerDelegate*/ {
         }
     }
     
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-//        self.location = locValue
-//    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        self.location = locValue
+    }
     
     @IBAction func GetLocation(_ sender: Any) {
-
+        guard location != nil else {
+            return
+        }
+        WeatherManager.shared.addCity(coords: location!) { ans, weather in
+            if ans == false {
+                return
+            }
+            
+            let alert = UIAlertController(title: "Location",
+    message: "Your location is \((weather.name)!), longitude: \((self.location?.longitude)!), latitude:  \((self.location?.latitude)!)",
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            
+            alert.addAction(UIAlertAction(title: "View the weather", style: .default, handler: { _ in
+                let controller = self.storyboard!.instantiateViewController(withIdentifier:
+                    "DetailViewController") as? DetailViewController
+                controller?.weatherData = weather
+                self.navigationController!.pushViewController(controller!, animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func firstLaunch(){

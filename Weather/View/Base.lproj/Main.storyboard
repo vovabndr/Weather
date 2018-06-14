@@ -62,9 +62,6 @@
                                 <segue destination="b3K-rA-JEG" kind="presentation" identifier="HomeSegue" animates="NO" id="4bc-eS-BC0"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="Location" id="eaO-Sn-8Pg">
-                            <color key="tintColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="citySearchBar" destination="Quo-oK-1DK" id="sNI-4P-fh9"/>
@@ -259,7 +256,7 @@
                         <viewLayoutGuide key="safeArea" id="BbV-gH-DWa"/>
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="fjK-Pt-feU">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="del" id="c21-9c-ibw">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="Add" id="c21-9c-ibw">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="DeleteCity:" destination="iRE-3t-Fee" id="QnF-YR-t3W"/>
@@ -357,7 +354,6 @@
         <image name="Thunderstorm" width="269" height="200"/>
         <image name="Wind" width="113" height="105"/>
         <image name="big-water-drop" width="72" height="102"/>
-        <image name="del" width="23" height="24"/>
         <image name="umbrella" width="92" height="104"/>
     </resources>
 </document>

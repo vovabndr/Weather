@@ -74,6 +74,9 @@ class CoreDataManager {
     func deleteByName(city: String?) {
         fetch { manage,_  in
             let context = CoreDataStack.shared.persistentContainer.viewContext
+            if manage.isEmpty {
+                return
+            }
             for obj in 0...manage.count - 1 where manage[obj].value(forKey: "name") as? String == city {
                 context.delete(manage[obj])
             }
@@ -83,12 +86,6 @@ class CoreDataManager {
                 print(error.localizedDescription)
             }
         }
-        
-        
-        
-     
-
-
     }
     
 

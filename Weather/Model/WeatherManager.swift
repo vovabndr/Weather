@@ -8,14 +8,15 @@
 
 import Foundation
 import OpenWeatherSwift
-
+import SwiftyJSON
+import CoreLocation
 
 class WeatherManager {
     static let shared = WeatherManager()
     
     var cityArr = [Weather]()
     
-    var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
+    private var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
                                   temperatureFormat: .Celsius)
     
     func addCity(name: String, handler: @escaping (Bool, Weather)->Void) {
@@ -32,6 +33,21 @@ class WeatherManager {
             handler(true, weatherJson)
         }
     }
+    
+    
+    
+    func addCity(coords: CLLocationCoordinate2D, handler: @escaping (Bool, Weather)->Void) {
+        newApi.currentWeatherByCoordinates(coords: coords) { (jsonAnswer ) in
+            if jsonAnswer["cod"] == "404" {
+                return
+            }
+            let weatherJson = Weather(json: jsonAnswer)
+            self.cityArr.append(weatherJson)
+            handler(true, weatherJson)
+        }
+    }
+    
+    
     
     func checkCity(_ name: String?)->Bool {
         for city in cityArr where city.name == name{

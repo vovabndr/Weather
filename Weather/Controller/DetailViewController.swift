@@ -68,14 +68,19 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if weatherData != nil {
+            barButtonStatus()
             activityIndicator.stopAnimating()
         }
     }
     
     @IBAction func DeleteCity(_ sender: UIBarButtonItem) {
+        guard weatherData != nil else {
+            return
+        }
+        
         if statusBarButton.image == #imageLiteral(resourceName: "del"){
-            
-            let alert = UIAlertController(title: "", message: "You want delte \((weatherData?.name)! ) from you list?",
+            let alert = UIAlertController(title: "",
+                            message: "Do you want delete \((weatherData?.name)!) from you list?",
                 preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
 
@@ -84,7 +89,6 @@ class DetailViewController: UIViewController {
                 self.statusBarButton.image = #imageLiteral(resourceName: "Add")
             }))
             self.present(alert, animated: true, completion: nil)
-            
         }
         
         if statusBarButton.image == #imageLiteral(resourceName: "Add"){
