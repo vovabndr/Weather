@@ -13,5 +13,4 @@ class CityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var temp: UILabel!
-    
 }

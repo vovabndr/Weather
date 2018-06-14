@@ -106,7 +106,7 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
             navigationController!.pushViewController(controller!, animated: true)
         } else {
             self.navigationController!.pushViewController(controller!, animated: true)
-            WeatherManager.shared.addCity(name: city){ answer in
+            WeatherManager.shared.addCity(name: city){ answer, _ in
                 DispatchQueue.main.async {
                     self.cityDelegate?.updateCityList()
                     controller?.weatherData = WeatherManager.shared.cityArr.first{$0.name == city }

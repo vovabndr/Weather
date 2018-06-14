@@ -21,6 +21,7 @@ class DetailViewController: UIViewController {
             rainLabel.text = "Rain chance \(weatherData?.chance! ?? 0)%"
             humidityLabel.text = "Humidity \(weatherData?.humidity! ?? 0)% "
             title = weatherData?.name
+            barButtonStatus()
             activityIndicator.stopAnimating()
         }
     }
@@ -51,15 +52,8 @@ class DetailViewController: UIViewController {
             humidityLabel.text = "Humidity \(weatherData?.humidity! ?? 0)% "
         }
     }
-    @IBOutlet weak var statusBarButton: UIBarButtonItem!{
-        didSet{
-            if WeatherManager.shared.checkCity(weatherData?.name) {
-                statusBarButton.image = #imageLiteral(resourceName: "del")
-            } else {
-                statusBarButton.image = #imageLiteral(resourceName: "Add")
-            }
-        }
-    }
+    @IBOutlet weak var statusBarButton: UIBarButtonItem!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
@@ -79,6 +73,44 @@ class DetailViewController: UIViewController {
     }
     
     @IBAction func DeleteCity(_ sender: UIBarButtonItem) {
+        if statusBarButton.image == #imageLiteral(resourceName: "del"){
+            
+            let alert = UIAlertController(title: "", message: "You want delte \((weatherData?.name)! ) from you list?",
+                preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+            alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+                CoreDataManager.shared.deleteByName(city: self.weatherData?.name)
+                self.statusBarButton.image = #imageLiteral(resourceName: "Add")
+            }))
+            self.present(alert, animated: true, completion: nil)
+            
+        }
         
+        if statusBarButton.image == #imageLiteral(resourceName: "Add"){
+            if let weather = weatherData {
+                CoreDataManager.shared.save(weather)
+                popUP(text: "\(weather.name!) added to your list!")
+                statusBarButton.image = #imageLiteral(resourceName: "del")
+            }
+        }
+        
+    }
+    
+    func barButtonStatus (){
+        if CoreDataManager.shared.check(weatherData?.name) {
+            statusBarButton.image = #imageLiteral(resourceName: "del")
+        } else {
+            statusBarButton.image = #imageLiteral(resourceName: "Add")
+        }
+    }
+    
+    func popUP(text: String){
+        let alert = UIAlertController(title: "", message: text, preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        let when = DispatchTime.now() + 1.0
+        DispatchQueue.main.asyncAfter(deadline: when){
+            alert.dismiss(animated: true, completion: nil)
+        }
     }
 }

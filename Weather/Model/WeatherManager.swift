@@ -18,17 +18,18 @@ class WeatherManager {
     var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
                                   temperatureFormat: .Celsius)
     
-    func addCity(name: String, handler: @escaping (Bool)->Void) {
+    func addCity(name: String, handler: @escaping (Bool, Weather)->Void) {
         if !checkCity(name){
-            handler(false)
+            handler(false,Weather(json: []))
             return
         }
         newApi.currentWeatherByCity(name: name) { jsonAnswer in
             if jsonAnswer["cod"] == "404" {
                 return
             }
-            self.cityArr.append(Weather(json: jsonAnswer))
-            handler(true)
+            let weatherJson = Weather(json: jsonAnswer)
+            self.cityArr.append(weatherJson)
+            handler(true, weatherJson)
         }
     }
     
