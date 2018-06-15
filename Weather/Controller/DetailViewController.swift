@@ -10,8 +10,8 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    var weatherData: Weather?{
-        didSet{
+    var weatherData: Weather? {
+        didSet {
             if cloudImageView == nil {
                 return
             }
@@ -25,37 +25,34 @@ class DetailViewController: UIViewController {
             activityIndicator.stopAnimating()
         }
     }
-    
-    
-    @IBOutlet weak var cloudImageView: UIImageView!{
-        didSet{
+
+    @IBOutlet weak var cloudImageView: UIImageView! {
+        didSet {
             cloudImageView.image =  UIImage(named: WeatherManager.shared.getIcon(cloud: weatherData?.image) ) ?? #imageLiteral(resourceName: "Clouds")
         }
     }
-    @IBOutlet weak var tempLabel: UILabel!{
+    @IBOutlet weak var tempLabel: UILabel! {
         didSet {
             tempLabel.text = "\(Int(weatherData?.temp! ?? 0 ))°C"
         }
     }
-    @IBOutlet weak var windLabel: UILabel!{
+    @IBOutlet weak var windLabel: UILabel! {
         didSet {
             windLabel.text = "Wind \n\(weatherData?.wind! ?? 0) m/s"
         }
     }
-    @IBOutlet weak var rainLabel: UILabel!{
+    @IBOutlet weak var rainLabel: UILabel! {
         didSet {
             rainLabel.text = "Rain chance \(weatherData?.chance! ?? 0)%"
         }
     }
-    @IBOutlet weak var humidityLabel: UILabel!{
+    @IBOutlet weak var humidityLabel: UILabel! {
         didSet {
             humidityLabel.text = "Humidity \(weatherData?.humidity! ?? 0)% "
         }
     }
     @IBOutlet weak var statusBarButton: UIBarButtonItem!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +75,7 @@ class DetailViewController: UIViewController {
             return
         }
         
-        if statusBarButton.image == #imageLiteral(resourceName: "del"){
+        if statusBarButton.image == #imageLiteral(resourceName: "del") {
             let alert = UIAlertController(title: "",
                             message: "Do you want delete \((weatherData?.name)!) from you list?",
                 preferredStyle: .alert)
@@ -91,7 +88,7 @@ class DetailViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
         
-        if statusBarButton.image == #imageLiteral(resourceName: "Add"){
+        if statusBarButton.image == #imageLiteral(resourceName: "Add") {
             if let weather = weatherData {
                 CoreDataManager.shared.save(weather)
                 popUP(text: "\(weather.name!) added to your list!")
@@ -101,7 +98,7 @@ class DetailViewController: UIViewController {
         
     }
     
-    func barButtonStatus (){
+    func barButtonStatus () {
         if CoreDataManager.shared.check(weatherData?.name) {
             statusBarButton.image = #imageLiteral(resourceName: "del")
         } else {
@@ -109,11 +106,11 @@ class DetailViewController: UIViewController {
         }
     }
     
-    func popUP(text: String){
+    func popUP(text: String) {
         let alert = UIAlertController(title: "", message: text, preferredStyle: .alert)
         self.present(alert, animated: true, completion: nil)
         let when = DispatchTime.now() + 1.0
-        DispatchQueue.main.asyncAfter(deadline: when){
+        DispatchQueue.main.asyncAfter(deadline: when) {
             alert.dismiss(animated: true, completion: nil)
         }
     }

@@ -13,7 +13,7 @@ class CityViewController: UIViewController {
     @IBOutlet weak var citySearchBar: UISearchBar!
     @IBOutlet weak var cityTableView: UITableView!
     
-    var cityDelegate: CityDelegate?
+    weak var cityDelegate: CityDelegate?
     var sortArr = CityList.shared.getSortedList()
     var filteredData = [[String]]()
     var inSearchMode = false
@@ -44,16 +44,15 @@ extension CityViewController: UISearchBarDelegate {
             cityTableView.reloadData()
         } else {
             inSearchMode = true
-            filteredData = sortArr.map{$0.filter{$0.lowercased().contains(searchBar.text!.lowercased())}}
+            filteredData = sortArr.map {$0.filter {$0.lowercased().contains(searchBar.text!.lowercased())}}
         
-            for element in filteredData where element.isEmpty{
+            for element in filteredData where element.isEmpty {
                 filteredData.remove(at: filteredData.index(of: element)!)
             }
             cityTableView.reloadData()
         }
     }
 }
-
 
 extension CityViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -69,7 +68,6 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
         return sortArr[section].count
     }
     
-
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if inSearchMode {
             return String(Array(filteredData[section][0])[0])
@@ -90,7 +88,7 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath , animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
         
         var city = String()
         if inSearchMode {
@@ -101,15 +99,15 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
         let controller = storyboard!.instantiateViewController(
             withIdentifier: "DetailViewController") as? DetailViewController
         
-        if  !WeatherManager.shared.checkCity(city){
-            controller?.weatherData = WeatherManager.shared.cityArr.first{$0.name == city }
+        if  !WeatherManager.shared.checkCity(city) {
+            controller?.weatherData = WeatherManager.shared.cityArr.first {$0.name == city }
             navigationController!.pushViewController(controller!, animated: true)
         } else {
             self.navigationController!.pushViewController(controller!, animated: true)
-            WeatherManager.shared.addCity(name: city){ answer, _ in
+            WeatherManager.shared.addCity(name: city) { _, _ in
                 DispatchQueue.main.async {
                     self.cityDelegate?.updateCityList()
-                    controller?.weatherData = WeatherManager.shared.cityArr.first{$0.name == city }
+                    controller?.weatherData = WeatherManager.shared.cityArr.first {$0.name == city }
                 }
             }
         }

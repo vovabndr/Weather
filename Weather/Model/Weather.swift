@@ -22,7 +22,6 @@ struct Weather {
     
     var image: String?
 
-
     init(json: JSON) {
         self.name = json["name"].string
         self.humidity = json["main"]["humidity"].int

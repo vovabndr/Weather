@@ -13,8 +13,7 @@ import SwiftyJSON
 class CoreDataManager {
     static let shared = CoreDataManager()
     
-    func save(_ cityToSave: Weather){
-        
+    func save(_ cityToSave: Weather) {
         
         let context = CoreDataStack.shared.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "CityManaged", in: context)
@@ -35,7 +34,6 @@ class CoreDataManager {
             print(error.localizedDescription)
         }
     }
-
     
     func fetch( handle: @escaping (_ result: [NSManagedObject], _ cities: [Weather]) -> Void) {
         let context = CoreDataStack.shared.persistentContainer.viewContext
@@ -46,14 +44,14 @@ class CoreDataManager {
                 var weather = [Weather]()
                 for result in results {
                     weather.append(Weather(json:
-                        JSON(["name" : result.value(forKey: "name"),
-                              "main" : ["humidity" : result.value(forKey : "humidity"),
-                                        "temp" : result.value(forKey : "temp"),
-                                        "temp_max" : result.value(forKey : "tempMax"),
-                                        "temp_min" : result.value(forKey : "tempMin")],
-                              "wind" : ["speed" : result.value(forKey: "wind")],
-                              "clouds" : ["all" : result.value(forKey: "chance")],
-                              "weather" : [["icon" : result.value(forKey: "image")]]])))
+                        JSON(["name": result.value(forKey: "name"),
+                              "main": ["humidity": result.value(forKey: "humidity"),
+                                        "temp": result.value(forKey: "temp"),
+                                        "temp_max": result.value(forKey: "tempMax"),
+                                        "temp_min": result.value(forKey: "tempMin")],
+                              "wind": ["speed": result.value(forKey: "wind")],
+                              "clouds": ["all": result.value(forKey: "chance")],
+                              "weather": [["icon": result.value(forKey: "image")]]])))
                 }
                 handle(results, weather)
             }
@@ -61,10 +59,10 @@ class CoreDataManager {
             print(error.localizedDescription)
         }
     }
-    func check(_ city: String?) -> Bool{
+    func check(_ city: String?) -> Bool {
         var answer = Bool()
         fetch { _, weather in
-            for weath in weather where weath.name! == city{
+            for weath in weather where weath.name! == city {
                 answer =  true
             }
         }
@@ -72,7 +70,7 @@ class CoreDataManager {
     }
     
     func deleteByName(city: String?) {
-        fetch { manage,_  in
+        fetch { manage, _  in
             let context = CoreDataStack.shared.persistentContainer.viewContext
             if manage.isEmpty {
                 return
@@ -88,5 +86,4 @@ class CoreDataManager {
         }
     }
     
-
 }

@@ -10,8 +10,7 @@ import UIKit
 import CoreLocation
 import OpenWeatherSwift
 
-
-class HomeController: UIViewController,CLLocationManagerDelegate {
+class HomeController: UIViewController, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     var location: CLLocationCoordinate2D?
@@ -43,7 +42,7 @@ class HomeController: UIViewController,CLLocationManagerDelegate {
 
     }
     
-    func updateWeather(){
+    func updateWeather() {
         CoreDataManager.shared.fetch { _, wethArr in
             self.weather = wethArr
             self.citiesCollectionView.reloadData()
@@ -79,7 +78,7 @@ class HomeController: UIViewController,CLLocationManagerDelegate {
         }
     }
     
-    func firstLaunch(){
+    func firstLaunch() {
         if UserDefaults.isFirstLaunch() {
             WeatherManager.shared.addCity(name: "California") { answer, weatherResponse in
                 if answer {
@@ -106,12 +105,12 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cityCollectionCell",
-                                                      for: indexPath) as! CityCollectionViewCell
+                                                      for: indexPath) as? CityCollectionViewCell
         
-        cell.image.image = UIImage(named: WeatherManager.shared.getIcon(cloud: weather[indexPath.row].image!))
-        cell.city.text = weather[indexPath.row].name
-        cell.temp.text = "\(weather[indexPath.row].tempMax!)/\(weather[indexPath.row].tempMin!)°C"
-        return cell
+        cell?.image.image = UIImage(named: WeatherManager.shared.getIcon(cloud: weather[indexPath.row].image!))
+        cell?.city.text = weather[indexPath.row].name
+        cell?.temp.text = "\(weather[indexPath.row].tempMax!)/\(weather[indexPath.row].tempMin!)°C"
+        return cell!
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -124,10 +123,8 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
 }
 
-
 extension HomeController: CityDelegate {
     func updateCityList() {
         citiesCollectionView.reloadData()
     }
 }
-
