@@ -17,7 +17,7 @@ class WeatherManager {
     var cityArr = [Weather]()
     
     private var newApi = OpenWeatherSwift(apiKey: "df1b232f2cf2310fbe46e6ae43856c37",
-                                  temperatureFormat: .Celsius)
+                                          temperatureFormat: .Celsius)
     
     func addCity(name: String, handler: @escaping (Bool, Weather) -> Void) {
         if !checkCity(name) {
@@ -45,10 +45,7 @@ class WeatherManager {
     }
     
     func checkCity(_ name: String?) -> Bool {
-        for city in cityArr where city.name == name {
-            return false
-        }
-        return true
+        return !cityArr.contains { $0.name == name }
     }
     
     func getIcon( cloud: String?) -> String {

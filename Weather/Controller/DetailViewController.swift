@@ -77,10 +77,9 @@ class DetailViewController: UIViewController {
         
         if statusBarButton.image == #imageLiteral(resourceName: "del") {
             let alert = UIAlertController(title: "",
-                            message: "Do you want delete \((weatherData?.name)!) from you list?",
-                preferredStyle: .alert)
+                                          message: "Do you want delete \((weatherData?.name)!) from you list?",
+                                          preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
-
             alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
                 CoreDataManager.shared.deleteByName(city: self.weatherData?.name)
                 self.statusBarButton.image = #imageLiteral(resourceName: "Add")

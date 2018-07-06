@@ -39,16 +39,17 @@ extension CityViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text == nil || searchBar.text == "" {
+        if (searchBar.text ?? "").isEmpty {
             inSearchMode = false
             cityTableView.reloadData()
         } else {
             inSearchMode = true
-            filteredData = sortArr.map {$0.filter {$0.lowercased().contains(searchBar.text!.lowercased())}}
-        
-            for element in filteredData where element.isEmpty {
-                filteredData.remove(at: filteredData.index(of: element)!)
+            filteredData = sortArr.map {
+                $0.filter {
+                    $0.lowercased().contains(searchBar.text!.lowercased())
+                }
             }
+            filteredData = filteredData.filter {$0.isEmpty  == false }
             cityTableView.reloadData()
         }
     }
@@ -77,25 +78,18 @@ extension CityViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cityCell", for: indexPath)
-            let text: String!
-            if inSearchMode {
-                text = filteredData[indexPath.section][indexPath.row]
-            } else {
-                text = sortArr[indexPath.section][indexPath.row]
-            }
-            cell.textLabel?.text = text
+        
+            cell.textLabel?.text = inSearchMode ? filteredData[indexPath.section][indexPath.row] :
+                                                  sortArr[indexPath.section][indexPath.row]
             return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        var city = String()
-        if inSearchMode {
-            city = filteredData[indexPath.section][indexPath.row]
-        } else {
-            city = sortArr[indexPath.section][indexPath.row]
-        }
+        let city =  inSearchMode ? filteredData[indexPath.section][indexPath.row] :
+                                   sortArr[indexPath.section][indexPath.row]
+        
         let controller = storyboard!.instantiateViewController(
             withIdentifier: "DetailViewController") as? DetailViewController
         

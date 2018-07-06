@@ -191,8 +191,8 @@
 				31D98E2820CED6F900ACB30D /* Sources */,
 				31D98E2920CED6F900ACB30D /* Frameworks */,
 				31D98E2A20CED6F900ACB30D /* Resources */,
-				C2BE1359D904F67E9027AB7A /* [CP] Embed Pods Frameworks */,
 				31C66FF420D3F05700571B1B /* ShellScript */,
+				934D62D1852EACFA0CF06071 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -215,6 +215,7 @@
 				TargetAttributes = {
 					31D98E2B20CED6F900ACB30D = {
 						CreatedOnToolsVersion = 9.3.1;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -262,9 +263,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
 		};
-		C2BE1359D904F67E9027AB7A /* [CP] Embed Pods Frameworks */ = {
+		934D62D1852EACFA0CF06071 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -477,7 +478,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = vbbv.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -496,7 +497,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = vbbv.Weather;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

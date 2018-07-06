@@ -59,6 +59,7 @@ class CoreDataManager {
             print(error.localizedDescription)
         }
     }
+    
     func check(_ city: String?) -> Bool {
         var answer = Bool()
         fetch { _, weather in

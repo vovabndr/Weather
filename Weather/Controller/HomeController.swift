@@ -41,6 +41,9 @@ class HomeController: UIViewController, CLLocationManagerDelegate {
         updateWeather()
 
     }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     func updateWeather() {
         CoreDataManager.shared.fetch { _, wethArr in
@@ -64,11 +67,12 @@ class HomeController: UIViewController, CLLocationManagerDelegate {
             }
             
             let alert = UIAlertController(title: "Location",
-    message: "Your location is \((weatherAns.name)!), longitude: \((self.location?.longitude)!), latitude:  \((self.location?.latitude)!)",
+                                          message: "Your location is \((weatherAns.name)!), longitude: \((self.location?.longitude)!), latitude:  \((self.location?.latitude)!)",
                 preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            
-            alert.addAction(UIAlertAction(title: "View the weather", style: .default, handler: { _ in
+            alert.addAction(UIAlertAction(title: "OK",
+                                          style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "View the weather",
+                                          style: .default, handler: { _ in
                 let controller = self.storyboard!.instantiateViewController(withIdentifier:
                     "DetailViewController") as? DetailViewController
                 controller?.weatherData = weatherAns
@@ -104,22 +108,23 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cityCollectionCell",
-                                                      for: indexPath) as? CityCollectionViewCell
-        
-        cell?.image.image = UIImage(named: WeatherManager.shared.getIcon(cloud: weather[indexPath.row].image!))
-        cell?.city.text = weather[indexPath.row].name
-        cell?.temp.text = "\(weather[indexPath.row].tempMax!)/\(weather[indexPath.row].tempMin!)°C"
-        return cell!
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cityCollectionCell",
+                                                         for: indexPath) as? CityCollectionViewCell {
+            cell.image.image = UIImage(named: WeatherManager.shared.getIcon(cloud: weather[indexPath.row].image!))
+            cell.city.text = weather[indexPath.row].name
+            cell.temp.text = "\(weather[indexPath.row].tempMax!)/\(weather[indexPath.row].tempMin!)°C"
+            return cell
+        }
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        
-        let controller = storyboard!.instantiateViewController(withIdentifier:
-            "DetailViewController") as? DetailViewController
-        controller?.weatherData = weather[indexPath.row]
-        navigationController!.pushViewController(controller!, animated: true)
+        if let controller = storyboard!.instantiateViewController(withIdentifier:
+            "DetailViewController") as? DetailViewController {
+            controller.weatherData = weather[indexPath.row]
+            navigationController!.pushViewController(controller, animated: true)
+        }
     }
 }
 
